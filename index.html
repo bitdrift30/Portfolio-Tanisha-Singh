@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tanisha Singh | AI & Data Engineer</title>
+    <!-- Load Poppins font for the display headline --><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700;800;900&display=swap" rel="stylesheet">
+    <!-- Load Tailwind CSS --><script src="https://cdn.tailwindcss.com"></script>
+    <!-- Configure Tailwind for Inter font and Dark Mode --><script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        // NEW COLOR VIBE: Gradient Accents and Deeper Dark Mode
+                        'accent-purple': '#9D72FF', // Light purple for text accents and gradient start
+                        'accent-mint': '#72FFB8',   // Mint green for text accents and gradient end
+                        'background-dark': '#0A0A0A', // Near Black
+                        'surface-dark': '#1A1A1A', // Dark Gray
+                        'text-light': '#f9fafb', // Off-White
+                        'text-muted': '#9ca3af', // Gray 400
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Poppins', 'sans-serif'], // Added Poppins for main headings
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom scroll behavior for smooth navigation */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* --- GRADIENT STYLES FOR THE NEW VIBE --- */
+        .gradient-button {
+            /* Apply the gradient background */
+            background: linear-gradient(90deg, #9D72FF 0%, #72FFB8 100%);
+            border: none; /* Remove default border to let gradient shine */
+        }
+        /* Subtle hover effect for the gradient button */
+        .gradient-button:hover {
+            background: linear-gradient(90deg, #72FFB8 0%, #9D72FF 100%);
+        }
+
+        /* Basic styles for the project cards to handle hover effects */
+        .project-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        /* Update hover shadow to use the new purple accent color */
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 25px -3px rgba(157, 114, 255, 0.25), 0 6px 15px -2px rgba(157, 114, 255, 0.15);
+        }
+
+        /* Fancier: Scroll Reveal Initial State */
+        .reveal-item {
+            opacity: 0;
+            transform: translateY(40px);
+            /* OPTIMIZED TRANSITION TIME: Snappier 0.6s */
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            will-change: opacity, transform; /* Optimization for smooth animation */
+        }
+
+        /* Fancier: Scroll Reveal Final State */
+        .reveal-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Keyframe for a subtle pulse animation on the hero button */
+        @keyframes pulse-ring {
+            0% {
+                box-shadow: 0 0 0 0 rgba(157, 114, 255, 0.4); /* Use new purple accent color */
+            }
+            100% {
+                box-shadow: 0 0 0 12px rgba(157, 114, 255, 0);
+            }
+        }
+
+        .pulse-effect {
+            animation: pulse-ring 2s infinite;
+        }
+        
+        /* --- VISUAL POP ENHANCEMENTS --- */
+        /* Subtle dotted grid background for texture */
+        .pop-background {
+            background-image: radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.05) 1px, transparent 0);
+            background-size: 40px 40px;
+        }
+
+        /* Text shadow for the main title to give it a glowing/popping effect */
+        .pop-title {
+            text-shadow: 0 0 15px rgba(157, 114, 255, 0.6), 0 0 30px rgba(114, 255, 184, 0.3);
+        }
+
+        /* NEW: Subtle glowing shadow for main sections/containers */
+        .section-glow {
+            box-shadow: 0 0 30px rgba(157, 114, 255, 0.1), 0 0 5px rgba(157, 114, 255, 0.05);
+            transition: box-shadow 0.3s ease;
+        }
+        .section-glow:hover {
+            box-shadow: 0 0 40px rgba(114, 255, 184, 0.15), 0 0 15px rgba(157, 114, 255, 0.1);
+        }
+
+    </style>
+</head>
+<body class="bg-background-dark text-text-light font-sans antialiased pop-background">
+
+    <!-- Header & Navigation --><header class="sticky top-0 z-50 bg-background-dark/95 backdrop-blur-sm shadow-lg border-b border-surface-dark">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <!-- Updated logo with real name --><a href="#hero" class="text-2xl font-bold text-accent-purple hover:text-white transition duration-200">Tanisha Singh</a>
+            <div id="nav-menu" class="space-x-4 hidden sm:flex">
+                <a href="#projects" class="text-text-muted hover:text-text-light transition duration-200">Projects</a>
+                <!-- NEW: Experience link --><a href="#experience" class="text-text-muted hover:text-text-light transition duration-200">Experience</a>
+                <a href="#skills" class="text-text-muted hover:text-text-light transition duration-200">Skills</a>
+                <a href="#contact" class="text-text-muted hover:text-text-light transition duration-200">Contact</a>
+            </div>
+            <!-- Mobile Menu Button (SVG Icon) --><button id="mobile-menu-button" class="sm:hidden p-2 rounded-lg hover:bg-surface-dark transition duration-200">
+                <svg class="w-6 h-6 text-text-light" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </nav>
+
+        <!-- Mobile Menu Drawer (Hidden by default) --><div id="mobile-menu-drawer" class="hidden sm:hidden bg-background-dark/95 w-full border-t border-surface-dark">
+            <a href="#projects" class="block py-3 px-4 text-text-light hover:bg-surface-dark/70" onclick="toggleMobileMenu()">Projects</a>
+            <!-- NEW: Experience link --><a href="#experience" class="block py-3 px-4 text-text-light hover:bg-surface-dark/70" onclick="toggleMobileMenu()">Experience</a>
+            <a href="#skills" class="block py-3 px-4 text-text-light hover:bg-surface-dark/70" onclick="toggleMobileMenu()">Skills</a>
+            <a href="#contact" class="block py-3 px-4 text-text-light hover:bg-surface-dark/70" onclick="toggleMobileMenu()">Contact</a>
+        </div>
+    </header>
+
+
+    <main class="max-w-7xl mx-auto">
+        <!-- 1. Hero Section --><section id="hero" class="min-h-screen flex items-center justify-center text-center p-8 pt-20">
+            <div class="space-y-6 max-w-4xl">
+                
+                <!-- Profile Picture Element --><div class="mb-8 reveal-item" data-scroll-delay="0">
+                    <!-- 
+                        ACTION COMPLETE: The image source has been updated with the public URL.
+                    -->
+                    <img src="https://raw.githubusercontent.com/bitdrift30/Portfolio-Tanisha-Singh/main/assets/Profile.jpg" 
+                         alt="Tanisha Singh Profile Picture"
+                         class="w-40 h-40 rounded-full object-cover mx-auto ring-4 ring-accent-purple ring-opacity-50 shadow-2xl transition duration-300 hover:scale-105">
+                </div>
+                
+                <p class="text-lg text-accent-purple font-medium tracking-wider uppercase reveal-item" data-scroll-delay="100">Hello, I'm Tanisha Singh</p>
+                <!-- ADDED pop-title CLASS FOR GLOW EFFECT --><h1 class="text-6xl sm:text-7xl lg:text-8xl font-extrabold leading-tight text-white font-display reveal-item pop-title" data-scroll-delay="200">
+                    Turning Data into <span class="text-accent-purple">Decisions.</span> Building AI for <span class="text-purple">Impact.</span>
+                </h1>
+                <!-- UPDATED ABOUT SECTION CONTENT --><p class="text-xl text-text-muted max-w-3xl mx-auto reveal-item" data-scroll-delay="300">
+                    I’m Tanisha Singh, a Computer Engineering student at Thapar Institute of Engineering and Technology passionate about <strong>Machine Learning</strong>, <strong>Data Science</strong>, and <strong>Software Development</strong>. I enjoy transforming data into actionable insights and solving problems through well-designed code and models. My hands-on work includes building AI-powered retrieval systems, predictive models, and interactive analytics dashboards. I thrive on learning new tools, working across the stack, and taking ownership of projects end-to-end. I communicate clearly, collaborate well with peers, and enjoy mentoring and participating in tech communities.
+                </p>
+                <div class="pt-6 flex justify-center space-x-4 reveal-item" data-scroll-delay="400">
+                    <!-- Main CTA Button - Removed "View Work" text for brevity --><a href="#projects" class="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-full text-white transition duration-300 shadow-lg pulse-effect gradient-button">
+                        Projects
+                    </a>
+                    <!-- Secondary Contact Button --><a href="#contact" class="inline-flex items-center justify-center px-8 py-3 border border-accent-purple/50 text-base font-medium rounded-full text-accent-purple hover:text-white hover:bg-accent-purple/20 transition duration-300">
+                        Contact Me
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. Projects Section --><section id="projects" class="py-20 px-4 sm:px-6 lg:px-8">
+            <!-- UPDATED TITLE: Now just "Projects" --><h2 class="text-4xl font-bold text-center mb-12 text-white font-display border-b-2 border-accent-purple/50 pb-2 inline-block mx-auto reveal-item" data-scroll-delay="0">Projects</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                <!-- Project Card 1: AskMyPDF - AI-Powered Question Answering System (RAG) -->
+                <div class="project-card bg-surface-dark rounded-xl p-6 shadow-xl border border-surface-dark hover:border-accent-purple/50 reveal-item section-glow" data-scroll-delay="500">
+                    <h3 class="text-2xl font-semibold text-white mb-2 reveal-item" data-scroll-delay="600">AskMyPDF (RAG System)</h3>
+                    <p class="text-text-muted mb-4 text-sm reveal-item" data-scroll-delay="700">LLaMA 3 | Groq API | ChromaDB | Python</p>
+                    <!-- UPDATED PARAGRAPH CONTENT --><p class="text-text-light mb-6 reveal-item" data-scroll-delay="800">Built a <strong>Retrieval-Augmented Generation (RAG)</strong> system for answering questions based on PDF content. The solution uses <strong>SentenceTransformers</strong> to convert PDF chunks into dense vectors, which are then stored in <strong>ChromaDB</strong>, enabling the semantic retrieval of relevant document segments via vector similarity. For a given query, the top-matching document segments are retrieved and passed as context to <strong>LLaMA 3 (70B)</strong> via the Groq API to generate coherent, context-aware answers.</p>
+                </div>
+
+                <!-- Project Card 2: Legal Research Assistant - AI-Powered Case Retrieval Tool -->
+                <div class="project-card bg-surface-dark rounded-xl p-6 shadow-xl border border-surface-dark hover:border-accent-purple/50 reveal-item section-glow" data-scroll-delay="1000">
+                    <h3 class="text-2xl font-semibold text-white mb-2 reveal-item" data-scroll-delay="1100">Legal Case Retrieval Tool</h3>
+                    <p class="text-text-muted mb-4 text-sm reveal-item" data-scroll-delay="1200">NLP | Vector Search | Cosine Similarity | Python</p>
+                    <!-- UPDATED PARAGRAPH CONTENT --><p class="text-text-light mb-6 reveal-item" data-scroll-delay="1300">Developed an <strong>AI-driven tool</strong> to assist legal professionals in retrieving precedent case judgments based on textual case descriptions, thereby streamlining legal research workflows. This involved leveraging <strong>Natural Language Processing (NLP)</strong> to extract semantic meaning from case texts using the <strong>all-MiniLM-L6-v2 transformer model</strong> from Sentence Transformers and implementing <strong>cosine similarity</strong> for semantic search to efficiently rank and retrieve the most contextually relevant legal documents from a corpus.</p>
+                </div>
+
+                <!-- Project Card 3: Student Forum Website - Full Stack Application -->
+                <div class="project-card bg-surface-dark rounded-xl p-6 shadow-xl border border-surface-dark hover:border-accent-purple/50 reveal-item section-glow" data-scroll-delay="1500">
+                    <h3 class="text-2xl font-semibold text-white mb-2 reveal-item" data-scroll-delay="1600">Student Forum Website</h3>
+                    <p class="text-text-muted mb-4 text-sm reveal-item" data-scroll-delay="1700">Full-Stack | EJS | HTML | CSS | JavaScript</p>
+                    <!-- UPDATED PARAGRAPH CONTENT --><p class="text-text-light mb-6 reveal-item" data-scroll-delay="1800">Designed and developed the <strong>frontend</strong> of a structured forum platform, allowing students to post queries, engage in discussions, and interact through threaded replies. The interface was built to be dynamic and responsive using <strong>EJS templating, HTML, CSS, and JavaScript</strong>. Key features included integrating <strong>role-based UI</strong> to distinguish between students, moderators, and admins, ensuring seamless navigation across categories, interactive components, and a consistent user experience.</p>
+                </div>
+            </div>
+            
+            <!-- UPDATED LINK: Now links to the new Experience section --><div class="text-center pt-16 reveal-item" data-scroll-delay="1900">
+                 <a href="#experience" class="inline-flex items-center justify-center px-6 py-2 text-base font-medium rounded-full text-accent-mint border border-accent-mint/50 hover:bg-accent-mint/10 transition duration-300">
+                    View Professional Experience &rarr;
+                </a>
+            </div>
+        </section>
+
+        <!-- 3. NEW: Experience Section --><section id="experience" class="py-20 px-4 sm:px-6 lg:px-8 bg-background-dark/80 rounded-t-2xl border-t border-surface-dark">
+            <h2 class="text-4xl font-bold text-center mb-12 text-white font-display border-b-2 border-accent-purple/50 pb-2 inline-block mx-auto reveal-item" data-scroll-delay="0">Professional Experience</h2>
+            <div class="max-w-4xl mx-auto space-y-12">
+                
+                <!-- Experience Block 1: Schneider Electric -->
+                <div class="bg-surface-dark rounded-xl p-6 shadow-xl border border-surface-dark hover:border-accent-purple/50 reveal-item section-glow" data-scroll-delay="700">
+                    <div class="flex justify-between items-start mb-4 reveal-item" data-scroll-delay="800">
+                        <div>
+                            <h3 class="text-2xl font-bold text-accent-purple">Data Analyst Intern</h3>
+                            <p class="text-lg text-white">Schneider Electric</p>
+                        </div>
+                        <p class="text-sm text-text-muted font-medium text-right">June 2025 – August 2025</p>
+                    </div>
+
+                    <div class="space-y-6 text-text-light">
+                        <!-- Experience Point 1: PR to PO Automation -->
+                        <div class="reveal-item" data-scroll-delay="900">
+                            <h4 class="text-lg font-bold text-accent-mint mb-1 reveal-item" data-scroll-delay="1000">PR to PO Automation</h4>
+                            <p class="text-text-light reveal-item" data-scroll-delay="1100">
+                                Implemented and delivered a digital solution using machine learning algorithms to enable same-day PR-to-PO conversion for the India region. The solution identified that <strong>1% of SKUs, contributing to 28% of the total buy value</strong>, could be auto-converted via daily SAP batch jobs—resulting in a reduction of <strong>40 minutes of non-value-added effort per planner per day</strong>.
+                            </p>
+                        </div>
+
+                        <!-- Experience Point 2: Predictive Forecast Accuracy Model -->
+                        <div class="reveal-item" data-scroll-delay="1300">
+                            <h4 class="text-lg font-bold text-accent-mint mb-1 reveal-item" data-scroll-delay="1400">Predictive Forecast Accuracy Model</h4>
+                            <p class="text-text-light reveal-item" data-scroll-delay="1500">
+                                Developed and deployed a <strong>LightGBM classification model</strong> to proactively predict the most reliable forecast horizon (M-1, M-2, or M-3) for a portfolio of over 2,000 SKUs. The solution provides a tactical, data-driven recommendation to supply chain planners. This project included in-depth <strong>Exploratory Data Analysis (EDA)</strong>, which revealed that overall forecast error was primarily driven by large, infrequent outlier events, shifting the project focus toward predicting these high-impact misses for a more targeted and effective modeling strategy.
+                            </p>
+                        </div>
+
+                        <!-- Experience Point 3: YoY Revenue Reporting Automation -->
+                        <div class="reveal-item" data-scroll-delay="1700">
+                            <h4 class="text-lg font-bold text-accent-mint mb-1 reveal-item" data-scroll-delay="1800">Year-over-Year (YoY) Revenue Reporting Automation</h4>
+                            <p class="text-text-light reveal-item" data-scroll-delay="1900">
+                                Developed a <strong>Python-based code</strong> to generate dynamic, multi-faceted Year-over-Year (YoY) revenue review presentations, resulting in a significant reduction in manual reporting effort and enabling faster data-driven decision-making. An efficient data pipeline was engineered to automatically transform raw monthly revenue, enabling dual-perspective analyses (by family and region) and dynamically identifying top revenue drivers for immediate insights.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Education Summary -->
+                <div class="bg-surface-dark rounded-xl p-6 shadow-xl border border-surface-dark reveal-item section-glow" data-scroll-delay="2100">
+                    <h3 class="text-2xl font-bold text-accent-purple mb-4 reveal-item" data-scroll-delay="2200">Education</h3>
+                    <div class="space-y-2 text-text-light">
+                        <p class="reveal-item" data-scroll-delay="2300"><strong>Bachelor of Engineering in Computer Engineering</strong> — Thapar Institute of Engineering and Technology</p>
+                        <p class="text-sm text-text-muted reveal-item" data-scroll-delay="2400">Expected Graduation: Present (CGPA: 7.64)</p>
+                        <p class="reveal-item" data-scroll-delay="2500"><strong>12th ISC</strong> — Girls’ High School and College (Percentage: 97.0%, 2022)</p>
+                        <p class="reveal-item" data-scroll-delay="2600"><strong>10th ICSE</strong> — Girls’ High School and College (Percentage: 95.0%, 2020)</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 4. Skills Section (Now Section 4, but retaining its ID) --><section id="skills" class="py-20 px-4 sm:px-6 lg:px-8 bg-surface-dark rounded-t-2xl">
+            <!-- Updated accent color --><h2 class="text-4xl font-bold text-center mb-12 text-white font-display border-b-2 border-accent-purple/50 pb-2 inline-block mx-auto reveal-item" data-scroll-delay="0">My Toolkit</h2>
+            <div class="max-w-5xl mx-auto">
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+                    <!-- Skill Item 1: Machine Learning -->
+                    <div class="p-4 bg-background-dark rounded-lg shadow-md flex flex-col items-center text-center transition duration-200 hover:bg-accent-purple/20 reveal-item section-glow" data-scroll-delay="100">
+                        <span class="text-4xl mb-2" role="img" aria-label="Machine Learning Icon">🤖</span>
+                        <p class="text-white font-medium">Machine Learning</p>
+                    </div>
+                    <!-- Skill Item 2: Python (Updated text) -->
+                    <div class="p-4 bg-background-dark rounded-lg shadow-md flex flex-col items-center text-center transition duration-200 hover:bg-accent-purple/20 reveal-item section-glow" data-scroll-delay="200">
+                        <span class="text-4xl mb-2" role="img" aria-label="Python Icon">🐍</span>
+                        <p class="text-white font-medium">Python</p>
+                    </div>
+                    <!-- Skill Item 3: Natural Language Processing (Updated text) -->
+                    <div class="p-4 bg-background-dark rounded-lg shadow-md flex flex-col items-center text-center transition duration-200 hover:bg-accent-purple/20 reveal-item section-glow" data-scroll-delay="300">
+                        <span class="text-4xl mb-2" role="img" aria-label="NLP Icon">🧠</span>
+                        <p class="text-white font-medium">Natural Language Processing</p>
+                    </div>
+                    <!-- Skill Item 4: NEW: Conversational AI -->
+                    <div class="p-4 bg-background-dark rounded-lg shadow-md flex flex-col items-center text-center transition duration-200 hover:bg-accent-purple/20 reveal-item section-glow" data-scroll-delay="400">
+                        <span class="text-4xl mb-2" role="img" aria-label="AI Icon">💡</span>
+                        <p class="text-white font-medium text-center">Conversational AI (Elective)</p>
+                    </div>
+                    <!-- Skill Item 5: Databases / SQL -->
+                    <div class="p-4 bg-background-dark rounded-lg shadow-md flex flex-col items-center text-center transition duration-200 hover:bg-accent-purple/20 reveal-item section-glow" data-scroll-delay="500">
+                        <span class="text-4xl mb-2" role="img" aria-label="Database Icon">🗄️</span>
+                        <p class="text-white font-medium">SQL & DBMS</p>
+                    </div>
+                    <!-- Skill Item 6: Core CS -->
+                    <div class="p-4 bg-background-dark rounded-lg shadow-md flex flex-col items-center text-center transition duration-200 hover:bg-accent-purple/20 reveal-item section-glow" data-scroll-delay="600">
+                        <span class="text-4xl mb-2" role="img" aria-label="Core CS Icon">⚙️</span>
+                        <p class="text-white font-medium">Core CS (DSA, OOP, OS)</p>
+                    </div>
+                    <!-- Skill Item 7: Data Viz / Tools -->
+                    <div class="p-4 bg-background-dark rounded-lg shadow-md flex flex-col items-center text-center transition duration-200 hover:bg-accent-purple/20 reveal-item section-glow" data-scroll-delay="700">
+                        <span class="text-4xl mb-2" role="img" aria-label="Tableau Icon">📈</span>
+                        <p class="text-white font-medium">Tableau & Excel</p>
+                    </div>
+                    <!-- Skill Item 8: Programming Languages (Consolidated C/C++ and Java) -->
+                    <div class="p-4 bg-background-dark rounded-lg shadow-md flex flex-col items-center text-center transition duration-200 hover:bg-accent-purple/20 reveal-item section-glow" data-scroll-delay="800">
+                        <span class="text-4xl mb-2" role="img" aria-label="Code Icon">💻</span>
+                        <p class="text-white font-medium">C, C++, Java</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. Contact Section (Now Section 5, but retaining its ID) --><section id="contact" class="py-20 px-4 sm:px-6 lg:px-8">
+            <!-- Updated accent color --><h2 class="text-4xl font-bold text-center mb-12 text-white font-display border-b-2 border-accent-purple/50 pb-2 inline-block mx-auto reveal-item" data-scroll-delay="0">Get In Touch</h2>
+            <div class="max-w-2xl mx-auto bg-surface-dark p-8 rounded-xl shadow-2xl reveal-item section-glow" data-scroll-delay="100">
+                <p class="text-xl text-text-light mb-10 text-center reveal-item" data-scroll-delay="200">
+                    I'm currently seeking new opportunities and collaborations in AI, Data Science, and Engineering.
+                    Feel free to reach out directly—I look forward to connecting!
+                </p>
+                
+                <!-- Consolidated Contact Links -->
+                <div class="flex flex-col space-y-8 items-center text-center">
+                    
+                    <!-- LinkedIn (Main CTA, using gradient button style for prominence) -->
+                    <a href="https://www.linkedin.com/in/tanisha-singh-961070242" target="_blank" class="inline-flex items-center space-x-2 px-8 py-3 text-base font-medium rounded-lg text-white transition duration-300 shadow-xl gradient-button hover:shadow-2xl hover:scale-[1.02] transform reveal-item" data-scroll-delay="400">
+                        <!-- LinkedIn Icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM4 9H0v12h4V9zm-2-4a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/></svg>
+                        <span>Connect on LinkedIn</span>
+                    </a>
+
+                    <!-- Email Link -->
+                    <div class="reveal-item" data-scroll-delay="600">
+                        <p class="text-sm font-medium text-text-muted">Email Address</p>
+                        <a href="mailto:tanishaxyz65@gmail.com" class="text-2xl font-bold text-accent-mint hover:text-accent-purple transition duration-200">tanishaxyz65@gmail.com</a>
+                    </div>
+
+                    <!-- Phone Link -->
+                    <div class="reveal-item" data-scroll-delay="800">
+                        <p class="text-sm font-medium text-text-muted">Phone Number</p>
+                        <a href="tel:+918418876378" class="text-2xl font-bold text-accent-mint hover:text-accent-purple transition duration-200">+91-8418876378</a>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER IS ENTIRELY REMOVED AS REQUESTED --><script>
+        // Set the current year dynamically in the footer (This is now redundant since footer is removed, but keeping script as is for other functions)
+        // document.getElementById('current-year').textContent = new Date().getFullYear(); 
+
+        // JavaScript for mobile menu functionality
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenuDrawer = document.getElementById('mobile-menu-drawer');
+
+        function toggleMobileMenu() {
+            mobileMenuDrawer.classList.toggle('hidden');
+        }
+
+        mobileMenuButton.addEventListener('click', toggleMobileMenu);
+
+        // Close mobile menu when a link is clicked
+        const mobileLinks = mobileMenuDrawer.querySelectorAll('a');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if (!mobileMenuDrawer.classList.contains('hidden')) {
+                    toggleMobileMenu();
+                }
+            });
+        });
+
+        // Fancier: Intersection Observer for Scroll Reveal Effect
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const delay = entry.target.getAttribute('data-scroll-delay') || 0;
+                    // Apply delay before adding the visible class
+                    setTimeout(() => {
+                        entry.target.classList.add('reveal-visible');
+                        // Stop observing once visible to prevent re-triggering
+                        // We check if the element has children with the reveal-item class. If it does, we let the children finish their animation before unobserving the parent.
+                        const hasRevealChildren = entry.target.querySelector('.reveal-item');
+                        if (!hasRevealChildren) {
+                            observer.unobserve(entry.target);
+                        }
+                    }, parseInt(delay));
+                }
+            });
+        }, {
+            // Options: trigger when 10% of the item is visible
+            threshold: 0.1, 
+            // Negative margin makes the detection area start sooner
+            rootMargin: '0px 0px -100px 0px' 
+        });
+
+        // Apply observer to all elements with the 'reveal-item' class
+        document.querySelectorAll('.reveal-item').forEach(item => {
+            observer.observe(item);
+        });
+
+    </script>
+</body>
+</html>
